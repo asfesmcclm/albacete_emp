@@ -88,26 +88,27 @@
             const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
             // Saltamos la cabecera (fila 0)
-            const finalData = json.slice(1).map(row => {
-                if (!row[1]) return null; // Saltar filas vacías
+const finalData = json.slice(1).map(row => {
+    if (!row[0]) return null; 
 
-                const blancaRaw = String(row[10] || '').toLowerCase();
-                const tipo = blancaRaw === 'si' ? 'BLANCA' : 'SI';
+    // Mapeo corregido según la imagen:
+    const blancaRaw = String(row[9] || '').toLowerCase();
+    const tipo = blancaRaw === 'si' ? 'BLANCA' : 'SI';
 
-                return {
-                    id:          row[0] || Date.now(),
-                    empresa:     String(row[1] || '').trim(),
-                    direccion:   limpiarDireccion(row[2]),
-                    municipio:   limpiarMunicipio(row[3]),
-                    cp:          String(row[4] || '').trim(),
-                    ssocial:     String(row[5] || '').trim(),
-                    cif:         String(row[6] || '').trim(),
-                    trabajadores: row[7] || 0,
-                    cnae:        String(row[8] || '').trim(),
-                    sector:      String(row[9] || '').trim(),
-                    tipo:        tipo
-                };
-            }).filter(e => e !== null);
+    return {
+        id:           row[0],                          // Columna A
+        empresa:      String(row[4] || '').trim(),     // Extrae de "FSSOCIAL" (Columna E)
+        direccion:    limpiarDireccion(row[1]),        // Columna B
+        municipio:    limpiarMunicipio(row[2]),        // Columna C
+        cp:           String(row[3] || '').trim(),     // Columna D
+        ssocial:      "No disponible",                 // Este dato no está en tu Excel real
+        cif:          String(row[5] || '').trim(),     // Columna F
+        trabajadores: row[6] || 0,                      // Columna G
+        cnae:         String(row[7] || '').trim(),     // Columna H
+        sector:       String(row[8] || '').trim(),     // Columna I
+        tipo:         tipo                             // Columna J
+    };
+}).filter(e => e !== null);
 
             const total = finalData.length;
             const si = finalData.filter(e => e.tipo === 'SI').length;
