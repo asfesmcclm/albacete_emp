@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cuenca-v2';
+const CACHE_NAME = 'albacete-v2';
 const ASSETS_ESTATICOS = [
     './',
     './index.html',
