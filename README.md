@@ -1,4 +1,4 @@
-# 🏭 Censo Empresas Cuenca 2026
+# 🏭 Censo Empresas Albacete 2026
 
 Aplicación web progresiva (PWA) para consultar el censo de empresas de la provincia de Cuenca de cara a las elecciones sindicales 2026.
 
